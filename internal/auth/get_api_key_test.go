@@ -9,18 +9,16 @@ import (
 
 func Test_GetApiKey(t *testing.T) {
 
-	tests := map[string]struct{
-		input http.Header
-		want string
+	tests := map[string]struct {
+		input   http.Header
+		want    string
 		wantErr bool
 	}{
 
-		"malformed_header": {input: http.Header{"Authorization": {"Api_Key YOUR_API_KEY"},}, want: "YOUT_API_KEY", wantErr: true},
-		"no_header": {input: http.Header{}, want: "Your_juice", wantErr: true},
-		"she_works": {input: http.Header{"Authorization": {"ApiKey YOUR_API_KEY"},}, want: "YOUR_API_KEY", wantErr: false},
-
+		"malformed_header": {input: http.Header{"Authorization": {"Api_Key YOUR_API_KEY"}}, want: "YOUT_API_KEY", wantErr: true},
+		"no_header":        {input: http.Header{}, want: "Your_juice", wantErr: true},
+		"she_works":        {input: http.Header{"Authorization": {"ApiKey YOUR_API_KEY"}}, want: "YOUR_API_KEY", wantErr: false},
 	}
-
 
 	for name, tc := range tests {
 
@@ -35,13 +33,13 @@ func Test_GetApiKey(t *testing.T) {
 			}
 
 			if err != nil {
-                t.Fatalf("unexpected error: %v", err)
-            }
+				t.Fatalf("unexpected error: %v", err)
+			}
 
 			diff := cmp.Diff(tc.want, got)
 			if diff != "" {
-                t.Fatalf("GetApiKey mismatch (-want +got):\n%s", diff)
-            }
+				t.Fatalf("GetApiKey mismatch (-want +got):\n%s", diff)
+			}
 		})
 	}
-} 
+}
